@@ -1,11 +1,7 @@
 package com.nick12white.sfgpetclinic.bootstrap;
 
 import com.nick12white.sfgpetclinic.model.*;
-import com.nick12white.sfgpetclinic.services.OwnerService;
-import com.nick12white.sfgpetclinic.services.SpecialtyService;
-import com.nick12white.sfgpetclinic.services.VetService;
-import com.nick12white.sfgpetclinic.services.VisitService;
-import com.nick12white.sfgpetclinic.services.map.PetTypeMapService;
+import com.nick12white.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,22 +11,22 @@ import java.time.LocalDate;
 public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
-    private final PetTypeMapService petTypeMapService;
+    private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
     private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeMapService petTypeMapService,
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
                       SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
-        this.petTypeMapService = petTypeMapService;
+        this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
         this.visitService = visitService;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        int count = petTypeMapService.findAll().size();
+        int count = petTypeService.findAll().size();
 
         if(count == 0) {
             LoadData();
@@ -40,11 +36,11 @@ public class DataLoader implements CommandLineRunner {
     private void LoadData() {
         PetType dog = new PetType();
         dog.setName("Dog");
-        PetType savedDogPetType = petTypeMapService.save(dog);
+        PetType savedDogPetType = petTypeService.save(dog);
 
         PetType cat = new PetType();
         dog.setName("Cat");
-        PetType savedCatPetType = petTypeMapService.save(cat);
+        PetType savedCatPetType = petTypeService.save(cat);
 
         Specialty radiology = new Specialty();
         radiology.setDescription("Radiology");
