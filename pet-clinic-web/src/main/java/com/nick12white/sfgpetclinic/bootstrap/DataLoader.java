@@ -4,6 +4,7 @@ import com.nick12white.sfgpetclinic.model.*;
 import com.nick12white.sfgpetclinic.services.OwnerService;
 import com.nick12white.sfgpetclinic.services.SpecialtyService;
 import com.nick12white.sfgpetclinic.services.VetService;
+import com.nick12white.sfgpetclinic.services.VisitService;
 import com.nick12white.sfgpetclinic.services.map.PetTypeMapService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,14 +17,16 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeMapService petTypeMapService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeMapService petTypeMapService, SpecialtyService specialtyService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeMapService petTypeMapService,
+                      SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeMapService = petTypeMapService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -88,6 +91,11 @@ public class DataLoader implements CommandLineRunner {
         owner2.getPets().add(fionasCat);
 
         ownerService.save(owner2);
+
+        Visit catVisit = new Visit();
+        catVisit.setDate(LocalDate.now());
+        catVisit.setPet(fionasCat);
+        catVisit.setDescription("Sneezing");
 
         System.out.println("Loaded Owners...");
 
